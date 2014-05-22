@@ -17,7 +17,6 @@
 -------------------------------------------------------------------------]]--
 
 return {
-
 	LrSdkVersion = 5.0,
 	LrSdkMinimumVersion = 3.0,
 
@@ -31,5 +30,4 @@ return {
 	},
 
 	VERSION = { major=0, minor=1, revision=2, build=0, },
-
 }

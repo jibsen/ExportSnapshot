@@ -21,21 +21,16 @@ local bind = LrView.bind
 local LrDialogs = import 'LrDialogs'
 
 local LrLogger = import 'LrLogger'
-
 local myLogger = LrLogger('ExportSnapshotLogger')
-
 myLogger:enable('logfile')
 
 myLogger:trace('loading file')
 
 local function startDialog(propertyTable)
-
 	myLogger:trace('in startDialog')
-
 end
 
 local function sectionForFilterInDialog(f, propertyTable)
-
 	myLogger:trace('in sectionForFilterInDialog')
 	
 	return {
@@ -59,7 +54,6 @@ local exportPresetFields = {
 }
 
 local function postProcessRenderedPhotos(functionContext, filterContext)
-
 	myLogger:trace('in postProcessRenderedPhotos')
 
 	local catalog = filterContext.sourceExportSession.catalog
