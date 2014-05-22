@@ -20,16 +20,19 @@ local LrView = import 'LrView'
 local bind = LrView.bind
 local LrDialogs = import 'LrDialogs'
 
+-- Support for debug logging
 local LrLogger = import 'LrLogger'
 local myLogger = LrLogger('ExportSnapshotLogger')
 myLogger:enable('logfile')
 
 myLogger:trace('loading file')
 
+-- Initialization function
 local function startDialog(propertyTable)
 	myLogger:trace('in startDialog')
 end
 
+-- Define section for filter in Export dialog
 local function sectionForFilterInDialog(f, propertyTable)
 	myLogger:trace('in sectionForFilterInDialog')
 	
@@ -49,23 +52,28 @@ local function sectionForFilterInDialog(f, propertyTable)
 	}
 end
 
+-- Table of settings and default values we wish to store
 local exportPresetFields = {
 	{ key = 'snappostfix', default = "Export" },
 }
 
+-- Post-processing function
 local function postProcessRenderedPhotos(functionContext, filterContext)
 	myLogger:trace('in postProcessRenderedPhotos')
 
 	local catalog = filterContext.sourceExportSession.catalog
 
 	for sourceRendition, renditionToSatisfy in filterContext:renditions() do
+		-- Wait for upstream task to finish work on photo
 		local success, pathOrMessage = sourceRendition:waitForRender()
 
 		if success then
 			myLogger:trace('rendered ' .. (pathOrMessage or '?'))
 
+			-- Get write access to the catalog
 			catalog:withWriteAccessDo('Create export snapshot', function(context) 
 				local photo = sourceRendition.photo
+				-- Create snapshot
 				photo:createDevelopSnapshot('test snapshot')
 			end) 
 		end
