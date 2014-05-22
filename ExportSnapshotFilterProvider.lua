@@ -19,6 +19,7 @@
 local LrView = import 'LrView'
 local bind = LrView.bind
 local LrDialogs = import 'LrDialogs'
+local LrDate = import 'LrDate'
 
 -- Support for debug logging
 local LrLogger = import 'LrLogger'
@@ -61,7 +62,9 @@ local exportPresetFields = {
 local function postProcessRenderedPhotos(functionContext, filterContext)
 	myLogger:trace('in postProcessRenderedPhotos')
 
-	local catalog = filterContext.sourceExportSession.catalog
+	local propertyTable = filterContext.propertyTable
+	local exportSession = filterContext.sourceExportSession
+	local catalog = exportSession.catalog
 
 	for sourceRendition, renditionToSatisfy in filterContext:renditions() do
 		-- Wait for upstream task to finish work on photo
@@ -70,11 +73,20 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 		if success then
 			myLogger:trace('rendered ' .. (pathOrMessage or '?'))
 
+			-- Create snapshot name from user string and timestamp
+			local time = LrDate.currentTime()
+			local snapshotName = string.format(
+				'%s (%s %s)',
+				propertyTable.snappostfix or 'Export',
+				LrDate.formatShortDate(time),
+				LrDate.formatShortTime(time)
+			)
+
 			-- Get write access to the catalog
 			catalog:withWriteAccessDo('Create export snapshot', function(context) 
 				local photo = sourceRendition.photo
 				-- Create snapshot
-				photo:createDevelopSnapshot('test snapshot')
+				photo:createDevelopSnapshot(snapshotName)
 			end) 
 		end
 	end

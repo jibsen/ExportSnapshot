@@ -29,5 +29,5 @@ return {
 		id = "exportsnapshot",
 	},
 
-	VERSION = { major=0, minor=1, revision=2, build=0, },
+	VERSION = { major=0, minor=1, revision=3, build=0, },
 }
