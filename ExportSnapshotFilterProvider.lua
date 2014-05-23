@@ -41,9 +41,9 @@ local function sectionForFilterInDialog(f, propertyTable)
 		title = LOC '$$$/ExportSnapshot/FilterDialog/Title=Export Snapshot',
 		f:row {
 			spacing = f:control_spacing(),
-			f:static_text {
-				title = 'Export snapshot name',
-				fill_horizontal = 1,
+			f:checkbox {
+				title =  LOC '$$$/ExportSnapshot/FilterDialog/EnableWithName=Enable with name:',
+				value = bind 'snapshot_enable',
 			},
 
 			f:edit_field {
@@ -55,6 +55,7 @@ end
 
 -- Table of settings and default values we wish to store
 local exportPresetFields = {
+	{ key = 'snapshot_enable', default = true },
 	{ key = 'snapshot_name', default = 'Export' },
 }
 
@@ -70,7 +71,7 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 		-- Wait for upstream task to finish work on photo
 		local success, pathOrMessage = sourceRendition:waitForRender()
 
-		if success then
+		if success and propertyTable.snapshot_enable then
 			myLogger:trace('rendered ' .. (pathOrMessage or '?'))
 
 			-- Create snapshot name from user string and timestamp
@@ -83,11 +84,14 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 			)
 
 			-- Get write access to the catalog
-			catalog:withWriteAccessDo('Create export snapshot', function(context) 
-				local photo = sourceRendition.photo
-				-- Create snapshot
-				photo:createDevelopSnapshot(snapshotName)
-			end) 
+			catalog:withWriteAccessDo(
+				LOC '$$$/ExportSnapshot/General/UndoMessage=Create export snapshot',
+				function(context) 
+					local photo = sourceRendition.photo
+					-- Create snapshot
+					photo:createDevelopSnapshot(snapshotName)
+				end
+			) 
 		end
 	end
 end
