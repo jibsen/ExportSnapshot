@@ -38,11 +38,11 @@ local function sectionForFilterInDialog(f, propertyTable)
 	myLogger:trace('in sectionForFilterInDialog')
 	
 	return {
-		title = LOC "$$$/ExportSnapshot/General/PluginName=Export Snapshot",
+		title = LOC '$$$/ExportSnapshot/FilterDialog/Title=Export Snapshot',
 		f:row {
 			spacing = f:control_spacing(),
 			f:static_text {
-				title = "Export snapshot name",
+				title = 'Export snapshot name',
 				fill_horizontal = 1,
 			},
 
@@ -55,7 +55,7 @@ end
 
 -- Table of settings and default values we wish to store
 local exportPresetFields = {
-	{ key = 'snapshot_name', default = "Export" },
+	{ key = 'snapshot_name', default = 'Export' },
 }
 
 -- Post-processing function
