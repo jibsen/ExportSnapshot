@@ -22,6 +22,7 @@ return {
 
 	LrPluginName = LOC '$$$/ExportSnapshot/General/PluginName=Export Snapshot',
 	LrToolkitIdentifier = 'com.ibsensoftware.lightroom.exportsnapshot',
+	LrPluginInfoUrl = 'https://github.com/jibsen/ExportSnapshot',
 	
 	LrExportFilterProvider = {
 		title = LOC '$$$/ExportSnapshot/General/PluginName=Export Snapshot',
@@ -29,5 +30,5 @@ return {
 		id = 'exportsnapshot',
 	},
 
-	VERSION = { major=0, minor=1, revision=3, build=0, },
+	VERSION = { major=0, minor=1, revision=4, build=0, },
 }
