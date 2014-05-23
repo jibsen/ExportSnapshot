@@ -22,20 +22,37 @@ local LrDialogs = import 'LrDialogs'
 local LrDate = import 'LrDate'
 
 -- Support for debug logging
+--[[
 local LrLogger = import 'LrLogger'
 local myLogger = LrLogger('ExportSnapshotLogger')
 myLogger:enable('logfile')
 
-myLogger:trace('loading file')
+local function logPrint(...)
+	myLogger:trace(...)
+end
+
+local function logPrintf(format, ...)
+	myLogger:tracef(format, ...)
+end
+--]]
+---[[
+local function logPrint(...)
+end
+
+local function logPrintf(format, ...)
+end
+--]]
+
+logPrint('loading file')
 
 -- Initialization function
 local function startDialog(propertyTable)
-	myLogger:trace('in startDialog')
+	logPrint('in startDialog')
 end
 
 -- Define section for filter in Export dialog
 local function sectionForFilterInDialog(f, propertyTable)
-	myLogger:trace('in sectionForFilterInDialog')
+	logPrint('in sectionForFilterInDialog')
 	
 	return {
 		title = LOC '$$$/ExportSnapshot/FilterDialog/Title=Export Snapshot',
@@ -61,7 +78,7 @@ local exportPresetFields = {
 
 -- Post-processing function
 local function postProcessRenderedPhotos(functionContext, filterContext)
-	myLogger:trace('in postProcessRenderedPhotos')
+	logPrint('in postProcessRenderedPhotos')
 
 	local propertyTable = filterContext.propertyTable
 	local exportSession = filterContext.sourceExportSession
@@ -72,7 +89,7 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 		local success, pathOrMessage = sourceRendition:waitForRender()
 
 		if success and propertyTable.snapshot_enable then
-			myLogger:trace('rendered ' .. (pathOrMessage or '?'))
+			logPrint('rendered ' .. (pathOrMessage or '?'))
 
 			-- Create snapshot name from user string and timestamp
 			local time = LrDate.currentTime()
