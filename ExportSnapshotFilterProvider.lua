@@ -47,7 +47,7 @@ local function sectionForFilterInDialog(f, propertyTable)
 			},
 
 			f:edit_field {
-				value = bind 'snappostfix',
+				value = bind 'snapshot_name',
 			},
 		}
 	}
@@ -55,7 +55,7 @@ end
 
 -- Table of settings and default values we wish to store
 local exportPresetFields = {
-	{ key = 'snappostfix', default = "Export" },
+	{ key = 'snapshot_name', default = "Export" },
 }
 
 -- Post-processing function
@@ -77,7 +77,7 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 			local time = LrDate.currentTime()
 			local snapshotName = string.format(
 				'%s (%s %s)',
-				propertyTable.snappostfix or 'Export',
+				propertyTable.snapshot_name or 'Export',
 				LrDate.formatShortDate(time),
 				LrDate.formatShortTime(time)
 			)
