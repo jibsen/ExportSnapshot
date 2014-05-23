@@ -97,7 +97,7 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 				'%s (%s %s)',
 				propertyTable.snapshot_name or 'Export',
 				LrDate.formatShortDate(time),
-				LrDate.formatShortTime(time)
+				LrDate.formatMediumTime(time)
 			)
 
 			-- Get write access to the catalog
