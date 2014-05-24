@@ -84,6 +84,10 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 	local exportSession = filterContext.sourceExportSession
 	local catalog = exportSession.catalog
 
+	-- Loop over renditions generated for this export session
+	-- Note: According to the Lightroom SDK Guide, the iterator automatically
+	-- calls renditionToSatisfy:renditionIsDone(), so we do not need to
+	-- report success explicitly.
 	for sourceRendition, renditionToSatisfy in filterContext:renditions() do
 		-- Wait for upstream task to finish work on photo
 		local success, pathOrMessage = sourceRendition:waitForRender()
