@@ -23,6 +23,7 @@ local LrDate = import 'LrDate'
 
 -- Local shortcuts
 local bind = LrView.bind
+local share = LrView.share
 
 -- Support for debug logging
 -- Note: Comment in the first block below to enable debug logging, and the
@@ -68,16 +69,16 @@ local function sectionForFilterInDialog(f, propertyTable)
 	return {
 		title = LOC '$$$/ExportSnapshot/FilterDialog/Title=Export Snapshot',
 		f:row {
-			spacing = f:control_spacing(),
+			spacing = f:label_spacing(),
 			f:checkbox {
-				title =  LOC '$$$/ExportSnapshot/FilterDialog/EnableWithName=Enable with name:',
+				title = LOC '$$$/ExportSnapshot/FilterDialog/Snapshot=Snapshot:',
 				value = bind 'snapshot_enable',
+				width = share 'labelWidth',
 			},
-
 			f:edit_field {
 				value = bind 'snapshot_name',
 			},
-		}
+		},
 	}
 end
 
