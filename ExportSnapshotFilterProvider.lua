@@ -16,12 +16,17 @@
 -- limitations under the License.
 -------------------------------------------------------------------------]]--
 
+-- Lightroom SDK imports
 local LrView = import 'LrView'
-local bind = LrView.bind
 local LrDialogs = import 'LrDialogs'
 local LrDate = import 'LrDate'
 
+-- Local shortcuts
+local bind = LrView.bind
+
 -- Support for debug logging
+-- Note: Comment in the first block below to enable debug logging, and the
+-- second to disable it.
 --[[
 local LrLogger = import 'LrLogger'
 local myLogger = LrLogger('ExportSnapshotLogger')
@@ -44,6 +49,12 @@ end
 --]]
 
 logPrint('loading file')
+
+-- Table of settings and default values we wish to store
+local exportPresetFields = {
+	{ key = 'snapshot_enable', default = true },
+	{ key = 'snapshot_name', default = 'Export' },
+}
 
 -- Initialization function
 local function startDialog(propertyTable)
@@ -69,12 +80,6 @@ local function sectionForFilterInDialog(f, propertyTable)
 		}
 	}
 end
-
--- Table of settings and default values we wish to store
-local exportPresetFields = {
-	{ key = 'snapshot_enable', default = true },
-	{ key = 'snapshot_name', default = 'Export' },
-}
 
 -- Post-processing function
 local function postProcessRenderedPhotos(functionContext, filterContext)
