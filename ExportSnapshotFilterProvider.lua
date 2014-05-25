@@ -57,11 +57,6 @@ local exportPresetFields = {
 	{ key = 'snapshot_name', default = 'Export' },
 }
 
--- Initialization function
-local function startDialog(propertyTable)
-	logPrint('in startDialog')
-end
-
 -- Define section for filter in Export dialog
 local function sectionForFilterInDialog(f, propertyTable)
 	logPrint('in sectionForFilterInDialog')
@@ -124,7 +119,6 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 end
 
 return {
-	startDialog = startDialog,
 	exportPresetFields = exportPresetFields,
 	sectionForFilterInDialog = sectionForFilterInDialog,
 	postProcessRenderedPhotos = postProcessRenderedPhotos,
