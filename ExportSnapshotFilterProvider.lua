@@ -107,7 +107,7 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 
 			-- Get write access to the catalog
 			catalog:withWriteAccessDo(
-				LOC '$$$/ExportSnapshot/General/UndoMessage=Create export snapshot',
+				LOC '$$$/ExportSnapshot/General/UndoMessage=Create Export Snapshot',
 				function(context) 
 					local photo = sourceRendition.photo
 					-- Create snapshot
