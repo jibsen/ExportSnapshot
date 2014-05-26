@@ -96,8 +96,11 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 		if success and propertyTable.snapshot_enable then
 			logPrint('rendered ' .. (pathOrMessage or '?'))
 
-			-- Create snapshot name from user string and timestamp
+			local photo = sourceRendition.photo
+			local copyName = photo:getFormattedMetadata('copyName')
 			local time = LrDate.currentTime()
+
+			-- Create snapshot name from user string and timestamp
 			local snapshotName = string.format(
 				'%s (%s %s)',
 				propertyTable.snapshot_name or 'Export',
@@ -105,11 +108,15 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 				LrDate.formatMediumTime(time)
 			)
 
+			-- Prepend copy name, if any
+			if copyName and copyName ~= '' then
+				snapshotName = copyName .. ' ' .. snapshotName
+			end
+
 			-- Get write access to the catalog
 			catalog:withWriteAccessDo(
 				LOC '$$$/ExportSnapshot/General/UndoMessage=Create Export Snapshot',
 				function(context) 
-					local photo = sourceRendition.photo
 					-- Create snapshot
 					photo:createDevelopSnapshot(snapshotName)
 				end

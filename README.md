@@ -42,4 +42,4 @@ show up as a section in the export settings, where you have options for
 disabling snapshots, and changing the name used for snapshots. These options
 are saved along with any presets you create.
 
-This plug-in has not been tested with publish services or virtual copies yet.
+This plug-in has not been tested with publish services.
