@@ -96,8 +96,7 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 		if success then
 			logPrintf('Rendered %q', pathOrMessage)
 		else
-			logPrintf(
-				'Failed to render %q (%s)',	sourceRendition.destinationPath, pathOrMessage)
+			logPrintf('Failed to render %q (%s)', sourceRendition.destinationPath, pathOrMessage)
 		end
 
 		if success and propertyTable.snapshot_enable then
