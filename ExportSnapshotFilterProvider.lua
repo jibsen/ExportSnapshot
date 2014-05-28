@@ -49,7 +49,7 @@ local function logPrintf(format, ...)
 end
 --]]
 
-logPrint('loading file')
+logPrint('=== Loading ExportSnapshotFilterProvider.lua ===')
 
 -- Table of settings and default values we wish to store
 local exportPresetFields = {
@@ -59,7 +59,7 @@ local exportPresetFields = {
 
 -- Define section for filter in Export dialog
 local function sectionForFilterInDialog(f, propertyTable)
-	logPrint('in sectionForFilterInDialog')
+	logPrint('[ Entering sectionForFilterInDialog() ]')
 	
 	return {
 		title = LOC '$$$/ExportSnapshot/FilterDialog/Title=Export Snapshot',
@@ -79,7 +79,7 @@ end
 
 -- Post-processing function
 local function postProcessRenderedPhotos(functionContext, filterContext)
-	logPrint('in postProcessRenderedPhotos')
+	logPrint('[ Entering postProcessRenderedPhotos() ]')
 
 	local propertyTable = filterContext.propertyTable
 	local exportSession = filterContext.sourceExportSession
@@ -93,9 +93,14 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 		-- Wait for upstream task to finish work on photo
 		local success, pathOrMessage = sourceRendition:waitForRender()
 
-		if success and propertyTable.snapshot_enable then
-			logPrint('rendered ' .. (pathOrMessage or '?'))
+		if success then
+			logPrintf('Rendered %q', pathOrMessage)
+		else
+			logPrintf(
+				'Failed to render %q (%s)',	sourceRendition.destinationPath, pathOrMessage)
+		end
 
+		if success and propertyTable.snapshot_enable then
 			local photo = sourceRendition.photo
 			local copyName = photo:getFormattedMetadata('copyName')
 			local time = LrDate.currentTime()
@@ -108,9 +113,13 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 				LrDate.formatMediumTime(time)
 			)
 
+			logPrintf('Generated snapshot name %q', snapshotName)
+
 			-- Prepend copy name, if any
 			if copyName and copyName ~= '' then
 				snapshotName = copyName .. ' ' .. snapshotName
+
+				logPrintf('Added copy name %q', copyName)
 			end
 
 			-- Get write access to the catalog
@@ -119,6 +128,8 @@ local function postProcessRenderedPhotos(functionContext, filterContext)
 				function(context) 
 					-- Create snapshot
 					photo:createDevelopSnapshot(snapshotName)
+
+					logPrintf('Created snapshot %q', snapshotName)
 				end
 			) 
 		end
